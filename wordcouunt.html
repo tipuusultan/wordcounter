@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<head>
+  <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
+
+
+</head>
+<html>
+
+
+<style>
+body{
+  font-family: 'Lato', sans-serif;
+
+}
+  
+  .modal{ 
+    display: none; 
+    }
+
+  .input{
+    height: 400px;
+    width: 1000px;
+  }
+.submite{
+  height: 30px;
+  width: 150px;
+  border: none;
+  border-radius: 3px;
+  background-color: rgb(0, 105, 241);
+  color: white;
+  font-family: 'Lato', sans-serif;
+
+  cursor: pointer;
+}
+
+.input::placeholder{
+  font-size: large;
+}
+
+</style>
+
+<body>
+
+<h1 style="text-align: center;">Word Counter</h1>
+<center>
+<div>
+
+  <p id="cintro"><p id="characters"></p></p>
+<p id="wintro"><p id="words"></p></p>
+
+<textarea placeholder="Enter or Paste your text here" class="input" name="mai" type="text" id="main"></textarea><br><br>
+
+<button class="submite" onclick="myFunction()">Count Words</button>
+</div>
+</center>
+
+<!-- \\pop up -->
+
+<div id="modal_1" class="modal" aria-hidden="true">
+  <div class="modal_box">
+    <h2>Your Result</h2>
+    <p>Your total Number of words is</p><b><p id="pop_words"></p></b>
+    <p>Your total Number of characters is</p><b><p id="pop_characters"></p></b>
+
+  </div>
+</div>
+
+<script>
+function myFunction() { 
+  var l = document.getElementById('main').value.length;
+  var w = document.getElementById('main').value;
+
+w = w.match(/\w+/g);
+w = w.length;
+
+
+//down side
+document.getElementById("cintro").innerHTML = "The Number of word is";
+document.getElementById("wintro").innerHTML = "The Number of Character is";
+
+  document.getElementById("characters").innerHTML = l;
+  document.getElementById("words").innerHTML = w;
+
+//pop up side
+
+document.getElementById("pop_characters").innerHTML = l;
+  document.getElementById("pop_words").innerHTML = w;
+
+
+// pop up
+
+openModal(document.getElementById('modal_1'));
+
+}
+</script>
+
+
+
+
+<script>
+
+const modalStyles = `
+.modal{
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,.6);
+  justify-content: center;
+  align-items: center;
+  user-select: none;
+  z-index: 999;
+}
+.modal.open{
+  display: flex;
+}
+.modal_box{
+  background: white;
+  color: black;
+  margin: 7px;
+  padding: 18px 20px;
+  border-radius: 8px;
+  width: 450px;
+  min-height: 200px;
+  max-width: 100%;
+  max-height: calc(100% - 20px);
+  overflow: auto;
+  box-sizing: border-box;
+  z-index: 99;
+  user-select: auto;
+  pointer-events: auto;
+}
+.modal_close{
+  float: right;
+  margin: -6px -4px 0 10px;
+  background: white;
+  cursor: pointer;
+  font-size: 170%;
+  z-index: 999;
+}
+`;
+
+window.addEventListener('load', function(){
+  var modalStyleSheet = document.createElement('style');
+  modalStyleSheet.type = 'text/css';
+  modalStyleSheet.innerText = modalStyles;
+  document.head.appendChild(modalStyleSheet);
+
+  var modals = [...document.getElementsByClassName('modal')];
+  modals.forEach(function(modal){
+    modal_box = modal.querySelector('.modal_box');
+    modal_box.insertAdjacentHTML('afterbegin', `<div id="close_`+modal.id+`" class="modal_close">&times;</div>`);
+    document.getElementById('close_'+modal.id).addEventListener('click', function(){
+      closeModal(modal);
+    });
+    modal.addEventListener('click', function(e){
+      closeModal(modal);
+    });
+    modal_box.addEventListener('click', function(e){
+      e.stopPropagation();
+    });
+  });
+});
+
+function openModal(modal){
+  modal.setAttribute('aria-hidden', 'false');
+  modal.classList.add('open');
+}
+function closeModal(modal){
+  modal.setAttribute('aria-hidden', 'true');
+  modal.classList.remove('open');
+}
+
+
+</script>
+
+</body>
+</html>
